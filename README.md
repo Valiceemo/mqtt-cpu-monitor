@@ -1,4 +1,6 @@
-<p align="centre">
+# MQTT CPU MONITOR
+
+<p align="center">
 # MQTT CPU MONITOR
 
 <b> Simple python program </b><br/>
