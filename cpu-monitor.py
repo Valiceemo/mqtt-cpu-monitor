@@ -13,7 +13,7 @@ import json
 
 def on_connect(client, userdata, flags, rc):
     if rc==0:
-        client.connected_flag=True #set flag
+        client.connected_flag=True
         print("connected OK, code", rc)
     else:
         print("Bad connection Returned code=",rc)
@@ -36,35 +36,35 @@ def bytes2human(n):
 
 
 while true:
-    mqtt.Client.connected_flag=False #create flag in class
+    mqtt.Client.connected_flag=False
     mqtt.Client.bad_connection_flag=False
-    broker="192.168.0.45"
+    # SET MQTT BROKER AND PORT
+    broker="my-broker-ip"
     port="1883"
 
     client = mqtt.Client("python1")
 
-    client.on_connect=on_connect  #bind call back function
+    client.on_connect=on_connect
 
     client.loop_start()
 
     print("Connecting to broker",broker)
 
     try:
-        client.connect(broker) #connect to broker
+        client.connect(broker)
     except:
         print("connection failed")
         print(client.connected_flag)
         exit(1)
 
-    while not client.connected_flag and not client.bad_connection_flag: #wait in loop
+    while not client.connected_flag and not client.bad_connection_flag:
         print("In wait loop")
         time.sleep(1)
     if client.bad_connection_flag:
         print(bad_connection_flag)
-        client.loop_stop()    #Stop loop
+        client.loop_stop()
         sys.exit()
 
-###
 
     boottime = datetime.datetime.fromtimestamp(psutil.boot_time()).strftime("%d/%m/%y %H:%M")
     currenttime = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -76,7 +76,8 @@ while true:
     print("CPU Usage",cpupercent,"%")
     print("Disk used",disktotal)
 
-    topic = "pihole-monitor/cpu"
+    ## CHANGE BELOW LINE TO MATCH YOUR MQTT TOPIC
+    topic = "my-topic/cpu"
     payload = { 'timestamp': currenttime, 'boottime': boottime, 'cpuusage': cpupercent, 'cputemp': cputemp, 'disktotal': disktotal }
 
     print(payload)

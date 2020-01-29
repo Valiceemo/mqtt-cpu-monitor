@@ -1,0 +1,17 @@
+[Unit]
+Description=CPU Temp Monitor
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -u cpu_temp_mqtt.py > /home/pi/cpu-temp.log 2>&1
+WorkingDirectory=/home/pi/scripts/system
+StandardOutput=inherit 
+StandardError=inherit
+Restart=always
+User=pi
+
+
+[Install]
+WantedBy=multi-user.target
+Alias=cpu-monitor.service
