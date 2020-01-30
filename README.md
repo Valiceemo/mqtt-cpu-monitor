@@ -1,6 +1,17 @@
 # MQTT CPU MONITOR
 
-Simple python program
+Simple python program that will publish MQTT messages containing information about the system.  
+Currently reported information  
+* Boot time  
+* CPU temperature  
+* CPU usage as a percentage  
+* Disk usage  
+
+MQTT message is puiblished in json format to allow for easier processing by your broker.  
+*Example message*
+```json
+{ timestamp: 16:10, boottime: 05/01/20 12:00, cpuusage: 5, cputemp: 45, disktotal: 8G }
+```
 
 Further details to follow
 
@@ -22,13 +33,30 @@ poop
 ```bash
 sudo mv cpu-monitor.service /etc/systemd/system/cpu-monitor.service
 ```
-- Install required python modules listed in `requirements.txt`<br>
-*psutil to grab boot time, cpu usage and temps, disk usage*<br>
-*paho-mqtt to publish mqtt message(s) to your broker*<br>
-*json to properly format json payload*
+- Install required python modules listed in `requirements.txt`  
+*psutil to grab boot time, cpu usage and temps, disk usage*  
+*paho-mqtt to publish mqtt message(s) to your broker*  
+*json to properly format json payload*  
 ```bash
 pip3 install -r requirements.txt
 ```
+
+## CONFIGURE
+
+Edit the `cpu-monitor.py` file to your specific needs, and systems
+
+- Enter your broker details
+```bash
+    broker="my-broker-ip"
+    port="1883"
+```
+- Enter the mqtt topic name
+```bash
+topic = "my-topic/cpu"
+```
+- The reporting, i.e. publishing frequency can be set by modifying the `time.sleep` call  
+By default it is set to 10 seconds
+
 
 ## START THE SERVICE
 
